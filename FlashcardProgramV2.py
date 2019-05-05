@@ -74,66 +74,152 @@ def find_last_of(string, char):
             index = i
     
     return index
+    
 
-def format_complex(file_list, q_end_char):
-    '''Takes the part of the file list that is a valid question and answer and
-    formats the output.'''
+def is_simple(line):
+    '''Returns True if the line is simple, false otherwise.'''
+    
+    if ("-" in line) and (line[-1] != "-"):
+        return True
+    
+    elif (":" in line) and (line[-1] != ":"):
+        return True
+    
+    elif ("?" in line) and (line[-1] != "?"):
+        return True
+    
+    else:
+        return False
+
+
+def is_complex(line):
+    '''Returns True if the line is complex, false otherwise.'''
+    
+    if "-" == line[-1]:
+        return True
+    
+    elif ":" == line[-1]:
+        return True
+    
+    elif "?" == line[-1]:
+        return True
+    
+    else:
+        return False
+
+
+def is_neither(line):
+    '''Returns True if the line is neither complex nor simple, false otherwise.'''
+    
+    if(not is_complex(line)) and (not is_simple(line)):
+        return True
+    else:
+        return False
+
+    
+def organize_data(file_list):
+    '''Takes the file list and returns a dictionary of all of the questions as
+    keys and answers as values.'''
+    
     file_list = file_list
-    
-    print(file_list)
-    
+    q_a_dict = {}
+    question = ""
     answer = ""
-    for e in file_list:
-        end_of_qestion = False
-        
-        if e == q_end_char:
-            end_of_question = True
-        
-        if not end_of_question:
-            question += e
-        else:
-            answer += e
     
-    question = question.lower().strip().capitalize()
-    answer = answer.lower().strip().capitalize()
+    true_index = 0   # Keeps track of the index of the most recent line.
     
-    final_output = question + "@" + answer
-    
-    return final_output
-    
-        
-    
+    # Loop through the file list.
+    for i, line in enumerate(file_list):
+        if i == true_index:
+            if "-" in line:
+                # Question is one line, answer is another.
+                if is_complex(line):
+                    question = line.strip()
+                    answer = ""
+                    
+                    # Continues to add lines to the answer until a new question
+                    # is found.
+                    while is_neither(file_list[true_index]):
+                        answer += file_list[true_index].strip() + "/n"
+                        true_index += 1
+                    
+                    true_index -= 1  # Makes sure not to skip the next line.
+                    
+                # Question and answer are on the same line.
+                else:
+                    split_index = find_last_of(line, "-")
+                    question = line[:split_index].strip()
+                    answer = line[split_index + 1:].strip()
+                
+                q_a_dict[question] = answer
+            
+            elif ":" in line:
+                # Question is one line, answer is another.
+                if is_complex(line):
+                    question = line.strip()
+                    answer = ""
+                    
+                    # Continues to add lines to the answer until a new question
+                    # is found.
+                    while is_neither(file_list[true_index]):
+                        answer += file_list[true_index].strip() + "/n"
+                        true_index += 1
+                    
+                    true_index -= 1  # Makes sure not to skip the next line.
+                
+                # Question and answer are on the same line.
+                else:
+                    split_index = find_last_of(line, ":")
+                    question = line[:split_index].strip()
+                    answer = line[split_index + 1:].strip()
+                
+                q_a_dict[question] = answer
 
-def get_complex(file_list):
-    '''Takes a piece of the file list and determines where the answers end.'''
-    file_list = file_list
-    return_list = []
-    return_list.append(file_list[0])
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-    
-    bullet_symbol = file_list[1][0]
-    
-    # Find the end of the answer.
-    for i, e in enumerate(file_list[1:]):
-        e.strip()
-        if e[0].lower() in alphabet:
-            if ("?" in e) or ("-" in e) or (":" in e):
-                end_of_answer = i - 1
-                break
-            elif e == "\n":
-                end_of_answer = i - 1
-                break
-        elif e[0] != bullet_symbol:
-            end_of_answer = i - 1
-            break
+            elif "?" in line:
+                # Question is one line, answer is another.
+                if is_complex(line):
+                    question = line.strip()
+                    answer = ""
+                    
+                    # Continues to add lines to the answer until a new question
+                    # is found.
+                    while is_neither(file_list[true_index]):
+                        answer += file_list[true_index].strip() + " & "
+                        true_index += 1
+                    
+                    true_index -= 1  # Makes sure not to skip the next line.
+                
+                # Question and answer are on the same line.
+                else:
+                    split_index = find_last_of(line, "?")
+                    question = line[:split_index].strip()
+                    answer = line[split_index + 1:].strip()
+                
+                q_a_dict[question] = answer
+            
+            # Basic message to use to signify that there is not a '-', ':', or 
+            # '?' character in the given line.
+            else:
+                print("Unrecognized symbol in line " + str(i + 1) + ".")
+                print("Line is:", line)
         
-    # Place all the parts of the answer into the return list.
-    for e in file_list[1:end_of_answer]:
-        return_list.append(e)
-        
-    return return_list
+        true_index += 1
     
+    return q_a_dict
 
+
+def output_data(file_dict, out_file):
+    '''Takes the dictionary of questions and answers and then writes them to
+    the output file.'''
+    
+    file_dict = file_dict
+    out_file = out_file
+    
+    # Writes the question and answer to the output file. No formatting...yet.
+    for q, a in file_dict.items():
+        print("{}@{}".format(q, a), file = out_file)
+
+    
 def main():
     '''This is the overall program.'''
     # Open the two files.
@@ -142,34 +228,9 @@ def main():
     # Get all the lines in the file.
     file_list = extract_data(read_file)
     
-    for i, line in enumerate(file_list):
-        if line[-1] == "?":
-            complex_qa = get_complex(file_list[i:])
-            output = format_complex(complex_qa)
-            print(output, file=write_file)
-        elif line[-1] == '-':
-            complex_qa = get_complex(file_list[i:])
-            output = format_complex(complex_qa)
-            print(output, file=write_file)
-        elif line[-1] == ":":
-            complex_qa = get_complex(file_list[i:])
-            output = format_complex(complex_qa)
-            print(output, file=write_file)
-        # If there isn't an end-of-question identifier at the end of the line.
-        else:
-            if "?" in line:
-                output = format_simple(line, "?")
-                print(output, file=write_file)
-            elif "-" in line:
-                output = format_simple(line, "-")
-                print(output, file=write_file)
-            elif ":" in line:
-                output = format_simple(line, ":")
-                print(output, file=write_file)
-            else:
-                print("There is no conversion for this line:")
-                print(line)
-            
+    file_dict = organize_data(file_list)
+    
+    output_data(file_dict, write_file)
                 
     read_file.close()
     write_file.close()
