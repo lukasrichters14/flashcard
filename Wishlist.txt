@@ -11,8 +11,7 @@ Factors that led Luke to leave Tatooine.
 	4. Aunt and Uncle killed by stromtroopers
 
 Clearly, these both have terms and definitions, but are very different from each other in their appearence.
-Not every possible input will be able to be reconciled, but a large majority should be able to be "understood"
-and properly formatted in such a way that quizlet can be used to detect it.
+Not every possible input will be able to be reconciled, but a large majority should be able to be "understood" and properly formatted in such a way that quizlet can be used to detect it.
 
 #def determine_format(string, previous_return=""):
 #    '''Determines the format of the string that is passed as input.
