@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcard Maker</title>
+</head>
+<body>
+
+<h1>Flashcard Maker</h1>
+<h2>Upload a text file with your notes to use the flashcard maker.</h2>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p> {{ message }} </p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form method=post action="" enctype=multipart/form-data>
+    <p>Upload your file here!</p>
+    <br>
+    {{ template_form.csrf_token }}
+    {{ template_form.name }}
+    {{ template_form.file_field }}
+    <input type="submit" value="Upload">
+    <p>Here is your fully-formatted flashcard set.</p>
+    <br>
+    {{ result }}
+</form>
+
+
+</body>
+</html>
