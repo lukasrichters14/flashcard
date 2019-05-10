@@ -1,0 +1,23 @@
+Current program is too specific to my initial problem. It needs to be able to adapt. This could be done
+through a function that determined, line by line, what the "format" should be. For example, differentiating
+between:
+
+What element is 'C'? Carbon.
+
+Factors that led Luke to leave Tatooine.
+	1. Message in R2-D2 for Obi-Wan
+	2. Finding Obi-Wan
+	3. Learning about his Father
+	4. Aunt and Uncle killed by stromtroopers
+
+Clearly, these both have terms and definitions, but are very different from each other in their appearence.
+Not every possible input will be able to be reconciled, but a large majority should be able to be "understood" and properly formatted in such a way that quizlet can be used to detect it.
+
+#def determine_format(string, previous_return=""):
+#    '''Determines the format of the string that is passed as input.
+#       Returns:
+#           "continue" - if there does not seem to be definition and a term
+#           "question" - if there is a simple question (with a question mark)
+#           and an answer.
+#           "bullet, #" - if there is some sort of bulleted list (including
+#           numbers), where # represents the number of list elements.'''

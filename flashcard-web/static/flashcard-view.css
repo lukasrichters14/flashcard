@@ -1,0 +1,53 @@
+body{
+    font-family: "Courier New";
+    font-size: 15px;
+    background-color: steelblue;
+    text-align: center;
+}
+
+div.main{
+    background-color: white;
+    margin: 4em 8em 4em 8em;
+}
+
+div.flashes p{
+    color: red;
+}
+
+div.disclaimer p{
+    font-size: 10px;
+    padding-top: 100px;
+    padding-bottom: 30px;
+}
+
+form{
+    font-family: "Courier New";
+    font-size: 15px;
+}
+
+div.header{
+    display: flex;
+    text-align: left;
+    padding-left: 1em;
+}
+
+div.header nav{
+    padding-top: 30px;
+    padding-left: 40px;
+    font-size: 15px;
+}
+
+div.subhead{
+    text-align: left;
+    padding-left: 1em;
+}
+
+div.result{
+    margin: 0px 300px 0px 300px;
+}
+
+div.main h2{
+    padding: 2em;
+}
+
+

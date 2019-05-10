@@ -33,7 +33,8 @@ def extract_data(file):
     return_list = []
     
     for line in file:
-        return_list.append(line)
+        if line:
+            return_list.append(line)
     
     # Appends a $ to the end of the list so that the end of the document can be
     # easily found.
