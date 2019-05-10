@@ -1,5 +1,5 @@
 body{
-    font-family: "Courier New";
+    font-family: "Helvetica";
     font-size: 15px;
     background-color: steelblue;
     text-align: center;
@@ -8,6 +8,7 @@ body{
 div.main{
     background-color: white;
     margin: 4em 8em 4em 8em;
+    padding: 0em 2em 0em 2em;
 }
 
 div.flashes p{
@@ -21,7 +22,7 @@ div.disclaimer p{
 }
 
 form{
-    font-family: "Courier New";
+    font-family: "Helvetica";
     font-size: 15px;
 }
 
@@ -46,8 +47,12 @@ div.result{
     margin: 0px 300px 0px 300px;
 }
 
-div.main h2{
+form h2{
     padding: 2em;
+}
+
+div.main h2{
+    padding: 1em;
 }
 
 

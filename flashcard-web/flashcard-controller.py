@@ -28,8 +28,21 @@ def upload():
         else:
             flash('You must upload a .txt file.')
         
-
     return render_template('flashcard-view.html', template_form=form, result = result_str)
+
+
+
+@app.route('/instructions.html', methods=['GET', 'POST'])
+def instructions():
+    
+    return render_template('instructions.html')
+
+
+
+@app.route('/about-contact.html', methods=['GET', 'POST'])
+def about():
+    
+    return render_template('about-contact.html')
 
 if __name__ == '__main__':
     app.run(debug = True)
